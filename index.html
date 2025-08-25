@@ -1,16 +1,145 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tony Tabwa | Cybersecurity Analyst</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tony Tabwa - Portfolio</title>
+  <!-- AOS Library for scroll animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1f1f1f;
+      --accent: #00ffae;
+      --text: #ffffff;
+      --highlight: #121212;
+      --link-hover: #00ffaa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--primary);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    nav a:hover {
+      color: var(--link-hover);
+    }
+
+    section {
+      margin-top: 50px;
+    }
+
+    h1, h2 {
+      color: var(--accent);
+    }
+
+    .project {
+      display: flex;
+      background-color: var(--highlight);
+      margin: 20px 0;
+      padding: 15px;
+      border-left: 4px solid var(--accent);
+楽しみ、20px;
+      flex-wrap: wrap;
+    }
+
+    .project img {
+      width: 300px;
+      height: auto;
+      border: 2px solid var(--accent);
+    }
+
+    .project a {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    .download-btn:hover {
+      background-color: var(--accent);
+      color: var(--primary);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-
-  <header>
-    <h1><b>Tony Tabwa</b></h1>
-    <p><strong>Cybersecurity Junior Analyst | Full Stack Developer | Network Security</strong></p>
+  <header data-aos="fade-down" data-aos-duration="1000">
+    <h1>Tony Tabwa</h1>
+    <p>Cybersecurity Junior Analyst | Full Stack Developer | Network Security</p>
     <nav>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
@@ -18,100 +147,87 @@
     </nav>
   </header>
 
-  <section id="about">
-    <h2><b>About Me</b></h2>
-    <p>I’m a 24-year-old <b>Cybersecurity Junior Analyst</b> with experience in IT support, penetration testing, and software development. I specialize in identifying vulnerabilities, simulating attack scenarios, and developing secure full-stack applications. Currently advancing my knowledge in red/blue teaming, digital forensics, and secure DevOps practices. Proficient in cybersecurity tools, programming languages, web technologies, operating systems, and networking/security practices.</p>
-    <p>I leverage my development expertise in programming languages like <b>Python, JavaScript, React, and Node.js</b> to build robust web applications and automation tools for penetration testing and API integrations. My capabilities also extend to <b>digital forensics, cryptographic analysis, and reverse engineering</b>, ensuring I have a well-rounded skill set in both offensive and defensive security.<br> I'm passionate about collaboration and innovation in the cybersecurity field. Whether it’s contributing to open-source projects or tackling tech challenges, I am always eager to learn and grow. Feel free to reach out for collaboration opportunities or if you’re interested in discussing tech-related challenges!</p>
+  <section id="about" data-aos="fade-up" data-aos-duration="1000">
+    <h2>About Me</h2>
+    <p>I’m a 24-year-old Cybersecurity Junior Analyst with experience in IT support, penetration testing, and software development. I specialize in identifying vulnerabilities, simulating attack scenarios, and developing secure full-stack applications. Currently advancing my knowledge in red/blue teaming, digital forensics, and secure DevOps practices. Proficient in cybersecurity tools, programming languages, web technologies, operating systems, and networking/security practices.</p>
+    <p>I leverage my development expertise in programming languages like Python, JavaScript, React, and Node.js to build robust web applications and automation tools for penetration testing and API integrations. My capabilities also extend to digital forensics, cryptographic analysis, and reverse engineering, ensuring I have a well-rounded skill set in both offensive and defensive security.</p>
+    <p>I'm passionate about collaboration and innovation in the cybersecurity field. Whether it’s contributing to open-source projects or tackling tech challenges, I am always eager to learn and grow. Feel free to reach out for collaboration opportunities or if you’re interested in discussing tech-related challenges!</p>
   </section>
 
-  <section id="projects">
-  <h2><b>Projects</b></h2>
-
-  <div class="project">
-    <img src="assets/screenshots/osint.png" alt="OSINT Automation Tool Screenshot">
-    <div>
-      <h3>OSINT Automation Tool</h3>
-      <p>Python app for open-source intelligence collection using APIs like Shodan and HaveIBeenPwned. Includes social media scraping modules.</p>
-      <a href="https://github.com/ProlificTMontana/OSINT-Automation-Tool" target="_blank">View Code</a>
+  <section id="projects" data-aos="fade-up" data-aos-duration="1000">
+    <h2>Projects</h2>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay=" AspNetCore">
+      <div>
+        <h3>OSINT Automation Tool</h3>
+        <p>Python app for open-source intelligence collection using APIs like Shodan and HaveIBeenPwned. Includes social media scraping modules.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/container.png" alt="Container Security Analyzer Screenshot">
-    <div>
-      <h3>Container Security Analyzer</h3>
-      <p>A frontend dashboard to visualize container scan results. Simulates CI/CD pipeline integration with Slack alerting.</p>
-      <a href="https://github.com/ProlificTMontana/Container-Security-Analyzer" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
+      <div>
+        <h3>Container Security Analyzer</h3>
+        <p>A frontend dashboard to visualize container scan results. Simulates CI/CD pipeline integration with Slack alerting.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/redteam_toolkit.png" alt="Red Team Automation Toolkit Screenshot">
-    <div>
-      <h3>Red Team Automation Toolkit</h3>
-      <p>Streamlit-based toolkit automating red team operations using tools like Nmap, Metasploit RPC, and Empire.</p>
-      <a href="https://github.com/ProlificTMontana/red_team_automation_toolkit" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="400">
+      <div>
+        <h3>Red Team Automation Toolkit</h3>
+        <p>Streamlit-based toolkit automating red team operations using tools like Nmap, Metasploit RPC, and Empire.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/inventory.png" alt="Advanced Inventory System Screenshot">
-    <div>
-      <h3>Advanced Inventory System</h3>
-      <p>Inventory management system built with PyQt5. Includes analytics dashboard, real-time stock updates, and report exporting.</p>
-      <a href="https://github.com/ProlificTMontana/advanced-inventory-system" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="600">
+      <div>
+        <h3>Advanced Inventory System</h3>
+        <p>Inventory management system built with PyQt5. Includes analytics dashboard, real-time stock updates, and report exporting.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/portscanner.png" alt="Port Scanner Screenshot">
-    <div>
-      <h3>Port Scanner</h3>
-      <p>A lightweight and effective tool used to scan a target IP address for open TCP ports within a specified range. It helps identify network services that are currently accessible, which is vital for reconnaissance and vulnerability assessment in penetration testing.</p>
-      <a href="https://github.com/ProlificTMontana/portscanner" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="800">
+      <div>
+        <h3>Port Scanner</h3>
+        <p>A lightweight and effective tool used to scan a target IP address for open TCP ports within a specified range. It helps identify network services that are currently accessible, which is vital for reconnaissance and vulnerability assessment in penetration testing.</pptive and vulnerability assessment in penetration testing.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/simulator.png" alt="Red Teaming Simulator Screenshot">
-    <div>
-      <h3>Red Teaming Simulator</h3>
-      <p>AI-powered browser simulator for testing incident response through simulated attack scenarios and real-time decision prompts.</p>
-      <a href="https://github.com/ProlificTMontana/redteamsimulation" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="1000">
+      <div>
+        <h3>Red Teaming Simulator</h3>
+        <p>AI-powered browser simulator for testing incident response through simulated attack scenarios and real-time decision prompts.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/passwordchecker.png" alt="Password Checker Screenshot">
-    <div>
-      <h3>Password Checker</h3>
-      <p>The Password Checker is a Python-based security tool that evaluates the strength of user-provided passwords and checks whether they have appeared in known data breaches.</p>
-      <a href="https://github.com/ProlificTMontana/passwordchecker" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="1200">
+      <div>
+        <h3>Password Checker</h3>
+        <p>The Password Checker is a Python-based security tool that evaluates the strength of user-provided passwords and checks whether they have appeared in known data breaches.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
-
-  <div class="project">
-    <img src="assets/screenshots/encryption.png" alt="Encryption Tool Screenshot">
-    <div>
-      <h3>Encryption Tool</h3>
-      <p>Encrypts/decrypts text files using Python and the cryptography library. Allows exporting encrypted files with a secret key.</p>
-      <a href="https://github.com/ProlificTMontana/encryptiontool" target="_blank">View Code</a>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="1400">
+      <div>
+        <h3>Encryption Tool</h3>
+        <p>Encrypts/decrypts text files using Python and the cryptography library. Allows exporting encrypted files with a secret key.</p>
+        <a href="#">View Code</a>
+      </div>
     </div>
-  </div>
+  </section>
 
-</section>
-
-
-  <section id="resume">
+  <section id="resume" data-aos="fade-up" data-aos-duration="1000">
     <h2>Resume</h2>
     <p>Download my latest resume to learn more about my qualifications, experience, and certifications.</p>
-    <a class="download-btn" href="assets/Resume.pdf" download>Download CV (PDF)</a>
+    <a href="#" class="download-btn">Download CV (PDF)</a>
   </section>
 
-  <footer>
-    <p>© 2025 Tony Tabwa | <a href="https://github.com/ProlificTMontana" target="_blank">GitHub</a></p>
+  <footer data-aos="fade-up "“fade-up” data-aos-duration="1000">
+    <p>© 2025 Tony Tabwa | <a href="#">GitHub</a></p>
   </footer>
 
+  <!-- AOS Library Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
-
