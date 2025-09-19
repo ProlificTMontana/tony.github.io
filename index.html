@@ -97,7 +97,6 @@
       margin: 20px 0;
       padding: 15px;
       border-left: 4px solid var(--accent);
-楽しみ、20px;
       flex-wrap: wrap;
     }
 
@@ -143,6 +142,7 @@
     <nav>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
+      <a href="#labs">Labs</a>
       <a href="#resume">Resume</a>
     </nav>
   </header>
@@ -218,6 +218,75 @@
         <h3>Encryption Tool</h3>
         <p>Encrypts/decrypts text files using Python and the cryptography library. Allows exporting encrypted files with a secret key.</p>
         <a href="https://github.com/ProlificTMontana/encryptiontool">View Code</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="labs" data-aos="fade-up" data-aos-duration="1000">
+    <h2>Cybersecurity Labs</h2>
+    <p>Hands-on labs i performed demonstrating practical skills in vulnerability assessment, penetration testing, and red team operations.</p>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="0">
+      <img src="assets/screenshots/lab-open-ports.png" alt="Nmap Port Scan Screenshot">
+      <div>
+        <h3>Vulnerability Assessment: Open Ports Scanning</h3>
+        <p>Conducted a thorough Nmap scan on http://testphp.vulnweb.com to identify open ports. Discovered Port 80 running Nginx 1.19.0 HTTP server.</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
+      <img src="assets/screenshots/lab-directory-bruteforce.png" alt="Directory Brute Force Screenshot">
+      <div>
+        <h3>Penetration Testing: Directory Enumeration</h3>
+        <p>Used Dirb/Gobuster to brute-force directories on http://testphp.vulnweb.com. Discovered sensitive paths like /admin/, /secured/, and /vendor/.</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="400">
+      <img src="assets/screenshots/lab-traffic-analysis.png" alt="Wireshark Traffic Capture Screenshot">
+      <div>
+        <h3>Traffic Analysis: Credential Interception</h3>
+        <p>Intercepted network traffic with Wireshark during a simulated login on http://testphp.vulnweb.com. Captured plaintext credentials (Username: test, Password: test).</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="600">
+      <img src="assets/screenshots/lab-sql-injection.png" alt="SQLMap SQL Injection Screenshot">
+      <div>
+        <h3>SQL Injection Testing</h3>
+        <p>Tested for SQL injection using SQLMap on the search field of http://testphp.vulnweb.com. Extracted MySQL database details (Version >= 5.1, PHP 5.6.40, Nginx 1.19.0).</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="800">
+      <img src="assets/screenshots/lab-xss.png" alt="XSS Vulnerability Test Screenshot">
+      <div>
+        <h3>XSS Vulnerability Testing</h3>
+        <p>Manually injected JavaScript payloads into the search box and comment section of http://testphp.vulnweb.com. Confirmed reflected and stored XSS, enabling potential session hijacking.</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="1000">
+      <img src="assets/screenshots/lab-redteam-recon.png" alt="Metasploitable Reconnaissance Screenshot">
+      <div>
+        <h3>Red Team: Initial Reconnaissance</h3>
+        <p>Scanned Metasploitable VM (192.168.0.209) with Nmap. Identified open ports including 21 (FTP), 22 (SSH), 23 (Telnet), 80 (HTTP), 139/445 (SMB), and 3306 (MySQL).</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="1200">
+      <img src="assets/screenshots/lab-metasploit-exploit.png" alt="Metasploit Exploitation Screenshot">
+      <div>
+        <h3>Red Team: Exploitation with Metasploit</h3>
+        <p>Exploited Samba vulnerability on Metasploitable VM using Metasploit's usermap_script module. Established a Meterpreter reverse shell session.</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
+      </div>
+    </div>
+    <div class="project" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="1400">
+      <img src="assets/screenshots/lab-post-exploitation.png" alt="Meterpreter Post-Exploitation Screenshot">
+      <div>
+        <h3>Red Team: Post-Exploitation & Persistence</h3>
+        <p>Deployed Meterpreter for reverse shell access. Implemented persistence via scheduled tasks and registry modifications to survive reboots.</p>
+        <a href="assets/Full Report.pdf" download="Red Team Report.pdf" class="download-btn">View Full Report (PDF)</a>
       </div>
     </div>
   </section>
